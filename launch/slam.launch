@@ -1,0 +1,5 @@
+<!-- slam.launch: launch gmapping and rviz -->
+<launch>
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find stage_tutorial)/rviz_config/teste.rviz"></node>
+<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" args="scan:=base_scan" output="screen"></node>
+</launch>
