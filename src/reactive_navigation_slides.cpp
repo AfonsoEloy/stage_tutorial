@@ -15,11 +15,11 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg){
 	// msg->ranges[i] corresponds to the range with angle_min + i*angle_increment (msg->angle_increment)
 	// All these angles are in radians!
 
+	// For simplicity, let's save the distance of the closer obstacle to the robot:
+	obstacle_distance = *std::min_element (msg->ranges.begin(), msg->ranges.end());
+
 	if(!robot_stopped){ // only prints when the robot is moving...
 		ROS_INFO("Received a LaserScan with %i samples", (int) msg->ranges.size());
-
-		// For simplicity, let's save the distance of the closer obstacle to the robot:
-		obstacle_distance = *std::min_element (msg->ranges.begin(), msg->ranges.end());
 		ROS_INFO("Minimum distance to the obstacle: %f", obstacle_distance);
 	}
 }
@@ -56,7 +56,8 @@ int main(int argc, char **argv)
 			}
 		}else{ // Stop
 			cmd_vel_msg.linear.x = 0.0;
-			cmd_vel_msg.angular.z = 0.0;
+			cmd_vel_msg.angular.z = 1.0;
+			ros::Duration(0.1).sleep();
 
 			if(!robot_stopped){ // Just print once
 				ROS_INFO("Stopping");

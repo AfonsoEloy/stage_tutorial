@@ -2,6 +2,6 @@
 <launch>
 <node pkg="stage_ros" type="stageros" name="stageros" args="$(find
 stage_tutorial)/worlds/rooms.world" />
-<node pkg="stage_tutorial" type="reactive_navigation_slides" name="reactive_navigation_slides"
+<node pkg="stage_tutorial" type="reactive_navigation" name="reactive_navigation"
 output="screen"/>
 </launch>
