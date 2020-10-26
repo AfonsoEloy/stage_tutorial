@@ -5,6 +5,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
+#include <random>
 
 
 class ReactiveController
@@ -15,39 +16,27 @@ private:
     ros::Subscriber laser_sub;
 
     double obstacle_distance;
-    float* ranges;
-    bool flag = true;
+    // double* ranges;
 
     geometry_msgs::Twist calculateCommand()
     {
         auto msg = geometry_msgs::Twist();
-        double front = ranges[120], left = ranges[235], right = ranges[4];
-        ROS_INFO("front = %f, left = %f, right = %f", front, left, right);
 
-        if(front > 1.0 || front > left && front > right)
-        {
-        	msg.linear.x = 1.0;
-        }
-        else if(left > front && left >= right && left > 0.5)
-        {
-        	msg.linear.x = 0.1;
-        	msg.angular.z = 1;
-        }
-        else if(right > front && right > left && right > 0.5)
-        {
-        	msg.linear.x = 0.1;
-        	msg.angular.z = -1;
-        }
+        // srand(time(NULL));
 
-    	if(right < 0.5)
-    	{
-    		msg.angular.z = 1;
-    	}
-    	else if(left < 0.5)
-    	{
-    		msg.angular.z = -1;
-    	}
-        
+        if(obstacle_distance > 0.5) msg.linear.x = 1;
+
+		if(obstacle_distance <= 0.5)
+		{
+			msg.angular.z = -1;
+
+			// float rand_time = ((float)rand() / RAND_MAX) * (1.0 - 0.1) + 0.1;
+        	// ROS_INFO("Random time: %f", rand_time);
+
+        	// Wait this long while rotating and hope we're clear
+			ros::Duration(0.1).sleep();
+		}		
+
         return msg;
     }
 
@@ -55,8 +44,8 @@ private:
     void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     {
         obstacle_distance = *std::min_element(msg->ranges.begin(), msg->ranges.end());
-        std::vector<float> laser_ranges = msg->ranges;
-        ranges = &laser_ranges[0];
+        // std::vector<float> laser_ranges = msg->ranges;
+        // ranges = &laser_ranges[0];
         ROS_INFO("Min distance to obstacle: %f", obstacle_distance);
     }
 
