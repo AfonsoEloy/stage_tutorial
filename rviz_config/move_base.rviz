@@ -7,7 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /Map1
-        - /Path1/Status1
+        - /LaserScan1
       Splitter Ratio: 0.5
     Tree Height: 717
   - Class: rviz/Selection
@@ -162,7 +162,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.009999999776482582
+      Size (m): 0.05000000074505806
       Style: Flat Squares
       Topic: base_scan
       Unreliable: false

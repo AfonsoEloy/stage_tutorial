@@ -8,7 +8,7 @@
     <remap from="/base_scan" to="/scan"/> -->
 
  <!--- Run AMCL --> 
-    <!-- <include file="$(find amcl)/examples/amcl_diff.launch" /> -->
+    <include file="$(find amcl)/examples/amcl_diff.launch" />
 
    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find stage_tutorial)/navigation_configs/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
